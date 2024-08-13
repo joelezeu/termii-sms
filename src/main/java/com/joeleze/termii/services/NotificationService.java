@@ -3,6 +3,7 @@ package com.joeleze.termii.services;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joeleze.termii.domain.NotificationRequest;
+import com.joeleze.termii.domain.NotificationResponse;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -13,6 +14,7 @@ import java.time.Duration;
 public class NotificationService {
     private final String API_ENDPOINT;
     private final HttpClient httpClient;
+    private final ObjectMapper objectMapper;
 
     public NotificationService(String endpoint) {
         this.API_ENDPOINT = endpoint;
@@ -21,9 +23,10 @@ public class NotificationService {
                 .version(HttpClient.Version.HTTP_2)  // Enable HTTP/2
                 .connectTimeout(Duration.ofSeconds(10))  // Set connection timeout
                 .build();
+        this.objectMapper = new ObjectMapper();
     }
 
-    public String sendNotification(NotificationRequest request) throws Exception {
+    public NotificationResponse sendNotification(NotificationRequest request) throws Exception {
         String inputJson = toJson(request);
         System.out.println("Sending request: " + inputJson);
         // Create an HttpRequest with POST method and JSON body
@@ -41,10 +44,10 @@ public class NotificationService {
         if (response.statusCode() != 200) {
             throw new RuntimeException("Failed : HTTP error code : " + response.statusCode());
         }
-        return response.body();
+        return objectMapper.readValue(response.body(), NotificationResponse.class);
     }
 
-    private String toJson(NotificationRequest request) {
+    public String toJson(NotificationRequest request) {
         try{
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
