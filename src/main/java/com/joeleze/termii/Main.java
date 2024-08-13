@@ -2,6 +2,7 @@ package com.joeleze.termii;
 
 import com.joeleze.termii.domain.MediaData;
 import com.joeleze.termii.domain.NotificationRequest;
+import com.joeleze.termii.domain.NotificationResponse;
 import com.joeleze.termii.services.NotificationService;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -24,8 +25,8 @@ public class Main {
 
         NotificationService smsService = new NotificationService("https://v3.api.termii.com/api/sms/send");
         try {
-            String response = smsService.sendNotification(smsRequest);
-            System.out.println("SMS sent successfully! "+response);
+            NotificationResponse response = smsService.sendNotification(smsRequest);
+            System.out.println("SMS sent successfully! "+response.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }

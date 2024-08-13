@@ -49,4 +49,15 @@ public class NotificationResponse {
     public void setUser(String user) {
         this.user = user;
     }
+
+    @Override
+    public String toString() {
+        return "NotificationResponse{" +
+                "code='" + code + '\'' +
+                ", balance='" + balance + '\'' +
+                ", messageId='" + messageId + '\'' +
+                ", message='" + message + '\'' +
+                ", user='" + user + '\'' +
+                '}';
+    }
 }
