@@ -28,7 +28,6 @@ public class NotificationService {
 
     public NotificationResponse sendNotification(NotificationRequest request) throws Exception {
         String inputJson = toJson(request);
-        System.out.println("Sending request: " + inputJson);
         // Create an HttpRequest with POST method and JSON body
         HttpRequest httpRequest = HttpRequest.newBuilder()
                 .uri(URI.create(API_ENDPOINT))
